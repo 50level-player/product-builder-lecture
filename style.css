@@ -95,8 +95,49 @@ body.lang-ja {
 
 /* Google Translate Widget Styling */
 #google_translate_element {
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+
+.goog-te-gadget-simple {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    cursor: pointer;
+}
+
+.goog-te-gadget-icon {
+    margin-right: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.goog-te-menu-value span:nth-child(1),
+.goog-te-menu-value span:nth-child(3),
+.goog-te-menu-value span:nth-child(5) {
+    display: none !important;
+}
+
+.goog-te-menu-value:after {
+    content: '🌐' !important;
+    font-size: 1.2rem !important;
+    margin-left: 5px;
+    color: var(--primary-color);
+}
+
+.goog-te-gadget img {
+    display: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
 }
 
 .goog-te-gadget-simple {

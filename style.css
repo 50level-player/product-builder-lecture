@@ -137,7 +137,10 @@ header h1 {
     margin: 0 auto 20px;
     border-radius: 50%;
     overflow: hidden;
-    background: #f0f0f0;
+    background-color: #f0f0f0;
+    background-image: url('webcam_box_catanddog.png');
+    background-size: cover;
+    background-position: center;
     position: relative;
     border: 6px solid var(--primary-color);
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);

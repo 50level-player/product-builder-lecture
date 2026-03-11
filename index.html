@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="site-title">AI Animal Face Test - Dog or Cat?</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Teachable Machine Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <!-- html2canvas for snapshot -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="paw-bg">
@@ -33,26 +34,32 @@
 
         <section class="intro-box">
             <p id="app-desc">Find out your hidden animal spirit with our advanced AI! Just show your face to the camera and let the magic happen. 🐾</p>
+            <p id="webcam-warning" class="warning-text">⚠️ Note: This app requires a webcam to function.</p>
         </section>
 
-        <div class="test-area">
-            <div id="webcam-container" class="webcam-box">
-                <div id="loading-spinner" class="hidden">
-                    <div class="loader"></div>
-                    <p id="loading-text">Summoning AI Spirit...</p>
+        <div id="snapshot-area">
+            <div class="test-area">
+                <div id="webcam-container" class="webcam-box">
+                    <div id="loading-spinner" class="hidden">
+                        <div class="loader"></div>
+                        <p id="loading-text">Summoning AI Spirit...</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="result-container" class="result-box hidden">
-                <h2 id="result-title">Analysis Result</h2>
-                <div id="label-container" class="label-list"></div>
-                <p id="animal-desc" class="animal-description"></p>
+                
+                <div id="result-container" class="result-box hidden">
+                    <h2 id="result-title">Analysis Result</h2>
+                    <div id="label-container" class="label-list"></div>
+                    <p id="animal-desc" class="animal-description"></p>
+                </div>
             </div>
         </div>
 
         <div class="controls">
             <button type="button" id="start-btn" class="main-btn">✨ Start Analysis</button>
-            <button type="button" id="retry-btn" class="main-btn hidden">🔄 Try Again</button>
+            <div id="result-btns" class="hidden">
+                <button type="button" id="download-btn" class="sub-btn">📸 Save Snapshot</button>
+                <button type="button" id="retry-btn" class="main-btn">🔄 Try Again</button>
+            </div>
         </div>
 
         <footer class="footer">

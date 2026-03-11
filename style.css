@@ -51,6 +51,7 @@ body {
     box-shadow: var(--shadow);
     text-align: center;
     border: 8px solid #fff;
+    margin: 20px 0;
 }
 
 .lang-selector {
@@ -92,11 +93,24 @@ header h1 {
     border: 2px dashed var(--primary-color);
 }
 
+.warning-text {
+    color: #d32f2f;
+    font-weight: bold;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+#snapshot-area {
+    background: white;
+    padding: 10px;
+    border-radius: 30px;
+}
+
 .webcam-box {
     width: 280px;
     height: 280px;
     margin: 0 auto 25px;
-    border-radius: 50%; /* Circle look! */
+    border-radius: 50%;
     overflow: hidden;
     background: #f0f0f0;
     position: relative;
@@ -153,12 +167,19 @@ header h1 {
     margin-top: 15px;
 }
 
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
 .main-btn {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
-    padding: 18px 50px;
-    font-size: 1.2rem;
+    padding: 15px 40px;
+    font-size: 1.1rem;
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
@@ -166,7 +187,20 @@ header h1 {
     transition: all 0.2s;
 }
 
-.main-btn:hover {
+.sub-btn {
+    background: #5d4037;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s;
+}
+
+.main-btn:hover, .sub-btn:hover {
     transform: translateY(-3px) scale(1.05);
 }
 

@@ -1,28 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyD3Qn8n2h_Gw-kVQwdWcFoSoucJnGPUC4U",
-  authDomain: "handfortune-ef99c.firebaseapp.com",
-  projectId: "handfortune-ef99c",
-  storageBucket: "handfortune-ef99c.firebasestorage.app",
-  messagingSenderId: "1004281056770",
-  appId: "1:1004281056770:web:393b6ba8a9be6bd344611b",
-  measurementId: "G-JS0XQSPMG9"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
 const GEMINI_KEY = "AIzaSyA4KSxUU7x6Q4mlHcqa9gLXUQIqsImErLE";
 
 // DOM Elements
-const loginBtn = document.getElementById('google-login-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const userInfo = document.getElementById('user-info');
-const userName = document.getElementById('user-name');
-const userPhoto = document.getElementById('user-photo');
 const inputArea = document.getElementById('input-area');
 const predictBtn = document.getElementById('predict-btn');
 const retryBtn = document.getElementById('retry-btn');
@@ -30,25 +10,6 @@ const loading = document.getElementById('loading');
 const resultArea = document.getElementById('result-area');
 const fortuneText = document.getElementById('fortune-text');
 const lottoResults = document.getElementById('lotto-results');
-
-// Auth Logic
-loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
-logoutBtn.addEventListener('click', () => signOut(auth));
-
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        loginBtn.classList.add('hidden');
-        userInfo.classList.remove('hidden');
-        inputArea.classList.remove('hidden');
-        userName.textContent = user.displayName;
-        userPhoto.src = user.photoURL;
-    } else {
-        loginBtn.classList.remove('hidden');
-        userInfo.classList.add('hidden');
-        inputArea.classList.add('hidden');
-        resultArea.classList.add('hidden');
-    }
-});
 
 // Fortune & Lotto Logic
 async function getFortune() {
@@ -90,7 +51,8 @@ async function getFortune() {
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const data = JSON.parse(response.text().replace(/```json|```/g, "").trim());
+        const rawText = response.text().replace(/```json|```/g, "").trim();
+        const data = JSON.parse(rawText);
 
         // Display Fortune
         fortuneText.innerText = data.fortune;

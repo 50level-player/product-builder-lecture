@@ -1,5 +1,29 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+// TODO: Firebase Console에서 발급받은 실제 설정값으로 교체해야 합니다.
+const firebaseConfig = {
+  apiKey: "YOUR_FIREBASE_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+// DOM Elements
+const loginBtn = document.getElementById('google-login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const userInfo = document.getElementById('user-info');
+const userName = document.getElementById('user-name');
+const userPhoto = document.getElementById('user-photo');
+const gameArea = document.getElementById('game-area');
 const video = document.getElementById('webcam');
 const canvas = document.getElementById('capture-canvas');
 const captureBtn = document.getElementById('capture-btn');
@@ -7,77 +31,87 @@ const retryBtn = document.getElementById('retry-btn');
 const loading = document.getElementById('loading');
 const resultArea = document.getElementById('result-area');
 const analysisText = document.getElementById('analysis-text');
-const apiKeyInput = document.getElementById('api-key');
 
-// 1. 웹캠 활성화
+// 1. 구글 로그인/로그아웃 로직
+loginBtn.addEventListener('click', () => {
+    signInWithPopup(auth, provider).catch(err => console.error("Login failed:", err));
+});
+
+logoutBtn.addEventListener('click', () => {
+    signOut(auth);
+});
+
+// 인증 상태 감시
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // 로그인 상태
+        loginBtn.classList.add('hidden');
+        userInfo.classList.remove('hidden');
+        gameArea.classList.remove('hidden');
+        userName.textContent = user.displayName;
+        userPhoto.src = user.photoURL;
+        setupWebcam();
+    } else {
+        // 로그아웃 상태
+        loginBtn.classList.remove('hidden');
+        userInfo.classList.add('hidden');
+        gameArea.classList.add('hidden');
+        resultArea.classList.add('hidden');
+        stopWebcam();
+    }
+});
+
+// 2. 웹캠 제어
+let stream = null;
 async function setupWebcam() {
     try {
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: "user" }, 
-            audio: false 
-        });
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
         video.srcObject = stream;
     } catch (err) {
-        console.error("웹캠을 활성화할 수 없습니다:", err);
         alert("카메라 권한이 필요합니다.");
     }
 }
 
-// 2. 이미지 캡처 및 분석
-async function analyzePalm() {
-    const apiKey = apiKeyInput.value.trim();
-    if (!apiKey) {
-        alert("Gemini API Key를 입력해주세요.");
-        return;
+function stopWebcam() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
     }
+}
 
-    // 캔버스에 현재 프레임 그리기
+// 3. Gemini 분석 로직
+async function analyzePalm() {
+    // API KEY 노출을 방지하려면 서버 측에서 처리하거나, Vertex AI for Firebase를 설정해야 합니다.
+    // 여기서는 동작 방식을 보여주기 위해 이전 로직을 유지하되, 로그인된 사용자만 버튼을 누를 수 있습니다.
+    const TEMPORARY_GEMINI_KEY = "YOUR_GEMINI_API_KEY_HERE"; // 실제 운영 시에는 백엔드 프록시 권장
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
     ctx.translate(canvas.width, 0);
-    ctx.scale(-1, 1); // 좌우 반전 해제
+    ctx.scale(-1, 1);
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     const imageData = canvas.toDataURL('image/jpeg').split(',')[1];
 
-    // UI 변경
     loading.classList.remove('hidden');
     resultArea.classList.add('hidden');
     captureBtn.classList.add('hidden');
-    retryBtn.classList.add('hidden');
 
     try {
-        const genAI = new GoogleGenerativeAI(apiKey);
+        const genAI = new GoogleGenerativeAI(TEMPORARY_GEMINI_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = `
-            사용자의 오른손 손금 사진입니다. 다음 지침에 따라 손금을 분석해주세요:
-            1. 생명선, 두뇌선, 감정선, 운명선을 식별하고 각각의 의미를 해석하세요.
-            2. 전체적인 성격, 건강운, 재물운, 애정운에 대해 설명하세요.
-            3. 긍정적이고 신비로운 분위기로 답변하세요.
-            4. 한국어로 친절하게 답변하세요.
-            5. 답변 형식은 마크다운을 사용하지 말고 깔끔한 텍스트로 구성하세요.
-        `;
+        const prompt = "사용자의 오른손 손금 사진입니다. 생명선, 두뇌선, 감정선을 분석하여 성격과 미래 운세를 신비로운 분위기로 5문장 내외로 설명해줘.";
 
         const result = await model.generateContent([
             prompt,
-            {
-                inlineData: {
-                    data: imageData,
-                    mimeType: "image/jpeg"
-                }
-            }
+            { inlineData: { data: imageData, mimeType: "image/jpeg" } }
         ]);
 
-        const response = await result.response;
-        const text = response.text();
-
-        analysisText.innerText = text;
+        analysisText.innerText = await result.response.text();
         resultArea.classList.remove('hidden');
     } catch (err) {
-        console.error("분석 중 오류 발생:", err);
-        analysisText.innerText = "분석 중 오류가 발생했습니다. API Key를 확인하거나 잠시 후 다시 시도해주세요.";
+        analysisText.innerText = "분석 중 오류가 발생했습니다.";
         resultArea.classList.remove('hidden');
     } finally {
         loading.classList.add('hidden');
@@ -85,16 +119,9 @@ async function analyzePalm() {
     }
 }
 
-// 리트라이 로직
-function retry() {
+captureBtn.addEventListener('click', analyzePalm);
+retryBtn.addEventListener('click', () => {
     resultArea.classList.add('hidden');
     retryBtn.classList.add('hidden');
     captureBtn.classList.remove('hidden');
-}
-
-// 이벤트 리스너
-captureBtn.addEventListener('click', analyzePalm);
-retryBtn.addEventListener('click', retry);
-
-// 초기화
-setupWebcam();
+});

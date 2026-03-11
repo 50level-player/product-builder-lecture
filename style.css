@@ -40,6 +40,7 @@ body {
     width: 95%;
     max-width: 800px;
     text-align: center;
+    transition: all 0.3s ease;
 }
 
 .top-controls {
@@ -80,6 +81,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     border: 4px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 #webcam-wrapper canvas {
@@ -209,6 +211,37 @@ body {
     padding: 0 20px;
     border-radius: 4px;
     cursor: pointer;
+}
+
+/* Result Animations */
+.win-flash {
+    animation: winGlow 0.8s ease-out;
+}
+
+.lose-flash {
+    animation: loseGlow 0.8s ease-out;
+}
+
+.draw-flash {
+    animation: drawGlow 0.8s ease-out;
+}
+
+@keyframes winGlow {
+    0% { box-shadow: 0 0 0px #42b72a; transform: scale(1); }
+    50% { box-shadow: 0 0 30px #42b72a; transform: scale(1.05); }
+    100% { box-shadow: 0 4px 12px var(--shadow); transform: scale(1); }
+}
+
+@keyframes loseGlow {
+    0% { box-shadow: 0 0 0px #e63946; transform: scale(1); }
+    50% { box-shadow: 0 0 30px #e63946; transform: scale(0.95); }
+    100% { box-shadow: 0 4px 12px var(--shadow); transform: scale(1); }
+}
+
+@keyframes drawGlow {
+    0% { box-shadow: 0 0 0px #ffb703; }
+    50% { box-shadow: 0 0 30px #ffb703; }
+    100% { box-shadow: 0 4px 12px var(--shadow); }
 }
 
 @media (max-width: 600px) {

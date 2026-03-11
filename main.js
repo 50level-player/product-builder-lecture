@@ -1,6 +1,6 @@
 const URL = "https://teachablemachine.withgoogle.com/models/C8dwdd0xV/";
 
-let model, webcam, labelContainer, maxPredictions;
+let model, webcam, maxPredictions;
 let userScore = 0;
 let compScore = 0;
 let isPlaying = false;
@@ -14,6 +14,8 @@ const userPredictionEl = document.getElementById('user-prediction');
 const computerChoiceEl = document.getElementById('computer-choice');
 const userScoreEl = document.getElementById('user-score');
 const compScoreEl = document.getElementById('comp-score');
+const webcamContainer = document.querySelector('.webcam-container');
+const computerContainer = document.querySelector('.computer-container');
 
 const choices = {
     "주먹": { icon: "✊", wins: "가위" },
@@ -21,8 +23,6 @@ const choices = {
     "보": { icon: "✋", wins: "주먹" }
 };
 
-// Map Teachable Machine labels to our internal labels if necessary
-// Assuming labels are "주먹", "가위", "보" or similar English equivalents
 const labelMap = {
     "Rock": "주먹",
     "Paper": "보",
@@ -32,7 +32,6 @@ const labelMap = {
     "보": "보"
 };
 
-// Load the image model and setup the webcam
 async function init() {
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
@@ -43,9 +42,9 @@ async function init() {
     model = await tmImage.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
-    const flip = true; // whether to flip the webcam
-    webcam = new tmImage.Webcam(300, 300, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
+    const flip = true;
+    webcam = new tmImage.Webcam(300, 300, flip);
+    await webcam.setup();
     await webcam.play();
     window.requestAnimationFrame(loop);
 
@@ -56,7 +55,7 @@ async function init() {
 }
 
 async function loop() {
-    webcam.update(); // update the webcam frame
+    webcam.update();
     if (!isPlaying) {
         await predict();
     }
@@ -84,22 +83,25 @@ async function startGame() {
     if (isPlaying) return;
     isPlaying = true;
     startBtn.disabled = true;
-    gameResultEl.textContent = "Get Ready!";
+    
+    // Reset visuals
+    webcamContainer.classList.remove('win-flash', 'lose-flash', 'draw-flash');
+    computerContainer.classList.remove('win-flash', 'lose-flash', 'draw-flash');
+    gameResultEl.textContent = "Ready...";
     computerChoiceEl.textContent = "❓";
 
-    // Countdown
     let count = 3;
     countdownEl.classList.remove('hidden');
     countdownEl.textContent = count;
 
-    const timer = setInterval(async () => {
+    const timer = setInterval(() => {
         count--;
         if (count > 0) {
             countdownEl.textContent = count;
         } else {
             clearInterval(timer);
             countdownEl.classList.add('hidden');
-            await resolveGame();
+            resolveGame();
         }
     }, 1000);
 }
@@ -115,26 +117,32 @@ async function resolveGame() {
         gameResultEl.textContent = "AI can't see you! 🧐";
     } else if (userChoice === compChoice) {
         gameResultEl.textContent = "Draw! 🤝";
+        webcamContainer.classList.add('draw-flash');
+        computerContainer.classList.add('draw-flash');
     } else if (choices[userChoice].wins === compChoice) {
         gameResultEl.textContent = "You Win! 🎉";
         userScore++;
+        userScoreEl.textContent = userScore;
+        webcamContainer.classList.add('win-flash');
+        computerContainer.classList.add('lose-flash');
     } else {
         gameResultEl.textContent = "AI Wins! 🤖";
         compScore++;
+        compScoreEl.textContent = compScore;
+        webcamContainer.classList.add('lose-flash');
+        computerContainer.classList.add('win-flash');
     }
-
-    userScoreEl.textContent = userScore;
-    compScoreEl.textContent = compScore;
     
     isPlaying = false;
     startBtn.disabled = false;
     startBtn.textContent = "Next Round! 🔄";
 }
 
-// Theme Logic
 themeBtn.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
-    themeBtn.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+    const isDark = body.classList.contains('dark-mode');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    themeBtn.textContent = isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
 });
 
 startBtn.addEventListener('click', () => {
@@ -145,6 +153,9 @@ startBtn.addEventListener('click', () => {
     }
 });
 
-// Initial state
+// Load saved preferences
 const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') body.classList.add('dark-mode');
+if (savedTheme === 'dark') {
+    body.classList.add('dark-mode');
+    themeBtn.textContent = "☀️ Light Mode";
+}

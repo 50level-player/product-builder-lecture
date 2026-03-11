@@ -3,49 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 행운의 예언가 - 오늘의 운세 & 로또</title>
+    <title>AI 동물상 테스트 - 나는 강아지? 고양이?</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Teachable Machine Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
-    <div class="stars-bg"></div>
     <div class="container">
         <header>
-            <h1>🌟 AI 행운의 예언가 🌟</h1>
-            <p class="subtitle">오늘 당신을 기다리는 운명과 행운의 숫자를 확인하세요.</p>
+            <h1>🐶 AI 동물상 테스트 🐱</h1>
+            <p class="subtitle">인공지능이 분석하는 나의 숨겨진 동물상 찾기</p>
         </header>
 
-        <div id="input-area" class="input-card">
-            <div class="form-group">
-                <label for="user-birth">생년월일</label>
-                <input type="date" id="user-birth" required>
-            </div>
-            <div class="form-group">
-                <label for="user-real-name">이름</label>
-                <input type="text" id="user-real-name" placeholder="이름을 입력하세요" required>
-            </div>
-            <button id="predict-btn" class="lucky-btn">🍀 행운의 결과 보기</button>
-        </div>
-
-        <div id="loading" class="hidden">
-            <div class="loader"></div>
-            <p>별들의 움직임을 분석 중입니다...</p>
-        </div>
-
-        <div id="result-area" class="hidden">
-            <div class="fortune-card">
-                <h2>📜 오늘의 운세</h2>
-                <div id="fortune-text" class="content"></div>
-            </div>
-
-            <div class="lotto-card">
-                <h2>💎 행운의 로또 번호</h2>
-                <div id="lotto-results" class="lotto-container"></div>
+        <div class="test-area">
+            <div id="webcam-container" class="webcam-box">
+                <div id="loading-spinner" class="hidden">
+                    <div class="loader"></div>
+                    <p>AI 모델 로딩 중...</p>
+                </div>
             </div>
             
-            <button id="retry-btn" class="lucky-btn">🔄 다시 점치기</button>
+            <div id="result-container" class="result-box hidden">
+                <h2 id="animal-title">분석 결과</h2>
+                <div id="label-container" class="label-list"></div>
+                <p id="animal-desc" class="animal-description"></p>
+            </div>
         </div>
-    </div>
 
-    <script type="module" src="main.js"></script>
+        <div class="controls">
+            <button type="button" id="start-btn" class="main-btn">✨ 테스트 시작하기</button>
+            <button type="button" id="retry-btn" class="main-btn hidden">🔄 다시 하기</button>
+        </div>
+
+        <footer class="footer">
+            <p>© 2026 AI Animal Face Test. Powered by Teachable Machine</p>
+        </footer>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>

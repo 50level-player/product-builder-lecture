@@ -209,7 +209,7 @@ catButtons.forEach(btn => {
             };
             (function() {
                 var d = document, s = d.createElement('script');
-                s.src = 'https://global-flavor-recommender.disqus.com/embed.js';
+                s.src = 'https://product-builderjj.disqus.com/embed.js';
                 s.setAttribute('data-timestamp', +new Date());
                 (d.head || d.body).appendChild(s);
             })();

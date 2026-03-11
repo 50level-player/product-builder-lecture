@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title">AI Animal Face Test - Dog or Cat? | Face Recognition Quiz</title>
+    <title id="site-title">AI 동물상 테스트 - 강아지? 고양이? | 인공지능 얼굴 분석</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Discover your animal face type with our advanced AI! Are you a cute puppy or a chic kitty? Try the AI Animal Face Test now using Teachable Machine technology.">
-    <meta name="keywords" content="AI Animal Face Test, Face Recognition, Dog Face vs Cat Face, Teachable Machine, Animal Face Quiz, AI Face Decoder">
-    <meta name="author" content="AI Animal Face Test Team">
+    <meta name="description" content="인공지능으로 나의 동물상을 확인해보세요! 나는 귀여운 강아지상일까, 시크한 고양이상일까? 구글 티쳐블 머신 기술을 활용한 AI 동물상 테스트를 지금 바로 시작해보세요.">
+    <meta name="keywords" content="AI 동물상 테스트, 얼굴 인식, 강아지상 고양이상, 티쳐블 머신, 동물상 퀴즈, AI 얼굴 분석">
+    <meta name="author" content="AI 동물상 테스트 팀">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://animalfacetest.com/">
-    <meta property="og:title" content="AI Animal Face Test - Dog or Cat?">
-    <meta property="og:description" content="Find out your hidden animal spirit with our advanced AI! Just show your face to the camera and let the magic happen.">
+    <meta property="og:title" content="AI 동물상 테스트 - 강아지? 고양이?">
+    <meta property="og:description" content="최첨단 AI로 당신의 숨겨진 동물상을 찾아보세요! 카메라에 얼굴을 비추기만 하면 신비로운 분석이 시작됩니다.">
     <meta property="og:image" content="https://animalfacetest.com/og-image.jpg">
 
     <!-- AdSense -->
@@ -32,11 +32,11 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">🐾 Animal AI</a>
             <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="dogstrivia.html">Dog's Trivia</a>
-                <a href="catstrivia.html">Cat's Trivia</a>
-                <a href="about.html">About</a>
-                <a href="about.html#contact">Contact</a>
+                <a href="index.html">홈</a>
+                <a href="dogstrivia.html">강아지 상식</a>
+                <a href="catstrivia.html">고양이 상식</a>
+                <a href="about.html">소개</a>
+                <a href="about.html#contact">문의</a>
             </div>
         </div>
     </nav>
@@ -49,22 +49,14 @@
     </div>
 
     <div class="container">
-        <div class="lang-selector">
-            <select id="lang-select">
-                <option value="en" selected>🇺🇸 English</option>
-                <option value="ko">🇰🇷 한국어</option>
-                <option value="ja">🇯🇵 日本語</option>
-            </select>
-        </div>
-
         <header>
-            <h1 id="main-title">🐶 AI Face Decoder 🐱</h1>
-            <p id="main-subtitle" class="subtitle">Are you a cute Puppy or a chic Kitty?</p>
+            <h1 id="main-title">🐶 AI 동물상 판독기 🐱</h1>
+            <p id="main-subtitle" class="subtitle">당신은 귀여운 강아지상? 도도한 고양이상?</p>
         </header>
 
         <section class="intro-box">
-            <p id="app-desc">Find out your hidden animal spirit with our advanced AI! Just show your face to the camera and let the magic happen. 🐾</p>
-            <p id="webcam-warning" class="warning-text">⚠️ Note: This app requires a webcam to function.</p>
+            <p id="app-desc">최첨단 AI로 당신의 숨겨진 동물상을 찾아보세요! 카메라에 얼굴을 보여주기만 하면 신비로운 분석이 시작됩니다. 🐾</p>
+            <p id="webcam-warning" class="warning-text">⚠️ 알림: 이 앱은 웹캠 연결이 필요합니다.</p>
         </section>
 
         <div id="snapshot-area">
@@ -72,12 +64,12 @@
                 <div id="webcam-container" class="webcam-box">
                     <div id="loading-spinner" class="hidden">
                         <div class="loader"></div>
-                        <p id="loading-text">Summoning AI Spirit...</p>
+                        <p id="loading-text">AI 영혼을 불러오는 중...</p>
                     </div>
                 </div>
                 
                 <div id="result-container" class="result-box hidden">
-                    <h2 id="result-title">Analysis Result</h2>
+                    <h2 id="result-title">분석 결과</h2>
                     <div id="label-container" class="label-list"></div>
                     <p id="animal-desc" class="animal-description"></p>
                 </div>
@@ -85,10 +77,10 @@
         </div>
 
         <div class="controls">
-            <button type="button" id="start-btn" class="main-btn">✨ Start Analysis</button>
+            <button type="button" id="start-btn" class="main-btn">✨ 테스트 시작하기</button>
             <div id="result-btns" class="hidden">
-                <button type="button" id="download-btn" class="sub-btn">📸 Save Snapshot</button>
-                <button type="button" id="retry-btn" class="main-btn">🔄 Try Again</button>
+                <button type="button" id="download-btn" class="sub-btn">📸 결과 저장하기</button>
+                <button type="button" id="retry-btn" class="main-btn">🔄 다시 하기</button>
             </div>
         </div>
 

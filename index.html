@@ -1,43 +1,62 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 동물상 테스트 - 나는 강아지? 고양이?</title>
+    <title id="site-title">AI Animal Face Test - Dog or Cat?</title>
     <link rel="stylesheet" href="style.css">
     <!-- Teachable Machine Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
+    <div class="paw-bg">
+        <div class="paw print-1">🐾</div>
+        <div class="paw print-2">🐾</div>
+        <div class="paw print-3">🐾</div>
+        <div class="paw print-4">🐾</div>
+    </div>
+
     <div class="container">
+        <div class="lang-selector">
+            <select id="lang-select">
+                <option value="en" selected>🇺🇸 English</option>
+                <option value="ko">🇰🇷 한국어</option>
+                <option value="ja">🇯🇵 日本語</option>
+            </select>
+        </div>
+
         <header>
-            <h1>🐶 AI 동물상 테스트 🐱</h1>
-            <p class="subtitle">인공지능이 분석하는 나의 숨겨진 동물상 찾기</p>
+            <h1 id="main-title">🐶 AI Face Decoder 🐱</h1>
+            <p id="main-subtitle" class="subtitle">Are you a cute Puppy or a chic Kitty?</p>
         </header>
+
+        <section class="intro-box">
+            <p id="app-desc">Find out your hidden animal spirit with our advanced AI! Just show your face to the camera and let the magic happen. 🐾</p>
+        </section>
 
         <div class="test-area">
             <div id="webcam-container" class="webcam-box">
                 <div id="loading-spinner" class="hidden">
                     <div class="loader"></div>
-                    <p>AI 모델 로딩 중...</p>
+                    <p id="loading-text">Summoning AI Spirit...</p>
                 </div>
             </div>
             
             <div id="result-container" class="result-box hidden">
-                <h2 id="animal-title">분석 결과</h2>
+                <h2 id="result-title">Analysis Result</h2>
                 <div id="label-container" class="label-list"></div>
                 <p id="animal-desc" class="animal-description"></p>
             </div>
         </div>
 
         <div class="controls">
-            <button type="button" id="start-btn" class="main-btn">✨ 테스트 시작하기</button>
-            <button type="button" id="retry-btn" class="main-btn hidden">🔄 다시 하기</button>
+            <button type="button" id="start-btn" class="main-btn">✨ Start Analysis</button>
+            <button type="button" id="retry-btn" class="main-btn hidden">🔄 Try Again</button>
         </div>
 
         <footer class="footer">
-            <p>© 2026 AI Animal Face Test. Powered by Teachable Machine</p>
+            <p>© 2026 AI Animal Face Test. Built with 🐾 and AI</p>
         </footer>
     </div>
     <script src="main.js"></script>

@@ -1,56 +1,107 @@
 :root {
     --primary-color: #ff9d00;
     --secondary-color: #ff6b6b;
-    --bg-color: #fff9f0;
-    --text-color: #4a4a4a;
+    --bg-color: #fffaf0;
+    --text-color: #5d4037;
     --card-bg: #ffffff;
-    --shadow: 0 10px 25px rgba(0,0,0,0.05);
+    --shadow: 0 15px 35px rgba(255, 157, 0, 0.1);
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    font-family: 'Comic Sans MS', 'Pretendard', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    overflow-x: hidden;
 }
 
+.paw-bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.paw {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.1;
+    transform: rotate(20deg);
+}
+
+.print-1 { top: 10%; left: 5%; }
+.print-2 { bottom: 10%; right: 10%; font-size: 5rem; }
+.print-3 { top: 20%; right: 15%; transform: rotate(-30deg); }
+.print-4 { bottom: 25%; left: 12%; }
+
 .container {
+    position: relative;
+    z-index: 1;
     width: 90%;
     max-width: 500px;
     background: var(--card-bg);
-    padding: 40px 20px;
-    border-radius: 30px;
+    padding: 40px 30px;
+    border-radius: 40px;
     box-shadow: var(--shadow);
     text-align: center;
+    border: 8px solid #fff;
+}
+
+.lang-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+#lang-select {
+    padding: 5px 10px;
+    border-radius: 15px;
+    border: 2px solid var(--primary-color);
+    background: white;
+    color: var(--text-color);
+    font-size: 0.8rem;
+    outline: none;
 }
 
 header h1 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-bottom: 5px;
     color: var(--primary-color);
+    letter-spacing: -1px;
 }
 
 .subtitle {
-    font-size: 0.9rem;
-    opacity: 0.7;
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.intro-box {
+    background: #fff5e6;
+    padding: 15px;
+    border-radius: 20px;
     margin-bottom: 30px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    border: 2px dashed var(--primary-color);
 }
 
 .webcam-box {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 20px;
-    border-radius: 20px;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 25px;
+    border-radius: 50%; /* Circle look! */
     overflow: hidden;
-    background: #eee;
+    background: #f0f0f0;
     position: relative;
-    border: 5px solid #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 6px solid var(--primary-color);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 #webcam-container canvas {
@@ -63,81 +114,78 @@ header h1 {
 .result-box {
     margin-top: 20px;
     padding: 20px;
-    background: #fdfdfd;
-    border-radius: 20px;
-}
-
-.label-list {
-    margin-bottom: 15px;
+    background: #fffaf0;
+    border-radius: 25px;
+    border: 2px solid #ffe0b2;
 }
 
 .prediction-bar-container {
-    margin-bottom: 10px;
-    text-align: left;
+    margin-bottom: 12px;
 }
 
 .prediction-label {
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
+    font-size: 0.9rem;
 }
 
 .bar-outer {
     width: 100%;
-    height: 15px;
-    background: #eee;
+    height: 12px;
+    background: #fff;
     border-radius: 10px;
-    overflow: hidden;
+    border: 1px solid #eee;
 }
 
 .bar-inner {
     height: 100%;
-    background: var(--primary-color);
-    transition: width 0.5s ease-out;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: 10px;
+    transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .animal-description {
     font-size: 1.1rem;
     font-weight: bold;
     color: var(--secondary-color);
-    line-height: 1.5;
+    margin-top: 15px;
 }
 
 .main-btn {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
-    padding: 15px 40px;
-    font-size: 1.1rem;
+    padding: 18px 50px;
+    font-size: 1.2rem;
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 157, 0, 0.3);
-    transition: transform 0.2s;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    transition: all 0.2s;
 }
 
 .main-btn:hover {
-    transform: scale(1.05);
+    transform: translateY(-3px) scale(1.05);
 }
 
 .footer {
     margin-top: 30px;
     font-size: 0.8rem;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .hidden { display: none !important; }
 
-/* Loader */
 .loader {
     border: 4px solid #f3f3f3;
     border-top: 4px solid var(--primary-color);
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite;
-    margin: 100px auto 10px;
+    margin: 90px auto 15px;
 }
 
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }

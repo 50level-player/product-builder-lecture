@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lotto Number Recommender</title>
+    <title>Today's Menu Recommender</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,16 +11,19 @@
         <div class="theme-toggle">
             <button id="theme-btn">🌙 Dark Mode</button>
         </div>
-        <h1>Lotto Number Recommender</h1>
-        <div class="lotto-numbers">
-            <div class="number">?</div>
-            <div class="number">?</div>
-            <div class="number">?</div>
-            <div class="number">?</div>
-            <div class="number">?</div>
-            <div class="number">?</div>
+        <h1>🍽️ Today's Menu?</h1>
+        <p class="subtitle">Choose a meal time for a recommendation!</p>
+        
+        <div class="meal-buttons">
+            <button class="meal-btn" data-meal="breakfast">🌅 Breakfast</button>
+            <button class="meal-btn" data-meal="lunch">☀️ Lunch</button>
+            <button class="meal-btn" data-meal="dinner">🌙 Dinner</button>
         </div>
-        <button id="generate-btn">Generate Numbers</button>
+
+        <div id="menu-display" class="menu-card">
+            <div class="menu-icon">❓</div>
+            <div class="menu-name">Click a button!</div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>

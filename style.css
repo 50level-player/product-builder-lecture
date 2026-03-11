@@ -1,25 +1,27 @@
 :root {
-    --bg-color: #f0f2f5;
-    --container-bg: #fff;
-    --text-color: #333;
-    --number-bg: #4CAF50;
-    --btn-bg: #008CBA;
-    --btn-hover: #005f7a;
-    --shadow: rgba(0, 0, 0, 0.1);
+    --bg-color: #fff9f0;
+    --container-bg: #ffffff;
+    --text-color: #4a3728;
+    --accent-color: #ff6b6b;
+    --btn-bg: #ff8e53;
+    --btn-hover: #ff6b6b;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --card-bg: #fffbf2;
 }
 
 .dark-mode {
-    --bg-color: #1a1a1a;
-    --container-bg: #2d2d2d;
-    --text-color: #f0f2f5;
-    --number-bg: #45a049;
-    --btn-bg: #0077a3;
-    --btn-hover: #005f7a;
-    --shadow: rgba(0, 0, 0, 0.5);
+    --bg-color: #2c2420;
+    --container-bg: #3d312a;
+    --text-color: #fcece0;
+    --accent-color: #ff8e53;
+    --btn-bg: #a0522d;
+    --btn-hover: #cd853f;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --card-bg: #4a3d35;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
@@ -27,17 +29,19 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .container {
     text-align: center;
     background-color: var(--container-bg);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px var(--shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 50px 30px;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px var(--shadow);
+    width: 90%;
+    max-width: 450px;
     position: relative;
+    transition: all 0.4s ease;
 }
 
 .theme-toggle {
@@ -50,56 +54,81 @@ body {
     background: none;
     border: 1px solid var(--text-color);
     color: var(--text-color);
-    padding: 5px 10px;
-    border-radius: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     transition: all 0.3s ease;
 }
 
-#theme-btn:hover {
-    background-color: var(--text-color);
-    color: var(--container-bg);
-}
-
 h1 {
+    margin: 10px 0 5px;
+    font-size: 2.2rem;
+}
+
+.subtitle {
     margin-bottom: 30px;
-    color: var(--text-color);
+    opacity: 0.8;
+    font-weight: 300;
 }
 
-.lotto-numbers {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
+.meal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 35px;
 }
 
-.number {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: var(--number-bg);
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 10px;
-    box-shadow: 0 5px 10px var(--shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-#generate-btn {
+.meal-btn {
     background-color: var(--btn-bg);
     color: white;
     border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 10px;
+    padding: 12px 10px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.2s, background-color 0.3s;
 }
 
-#generate-btn:hover {
+.meal-btn:hover {
     background-color: var(--btn-hover);
+    transform: translateY(-3px);
+}
+
+.meal-btn:active {
+    transform: translateY(0);
+}
+
+.menu-card {
+    background-color: var(--card-bg);
+    border: 2px dashed var(--accent-color);
+    padding: 30px;
+    border-radius: 18px;
+    min-height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.menu-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+}
+
+.menu-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

@@ -4,14 +4,14 @@
     --bg-color: #fffaf0;
     --text-color: #5d4037;
     --card-bg: #ffffff;
-    --shadow: 0 15px 35px rgba(255, 157, 0, 0.1);
-    --nav-height: 70px;
+    --shadow: 0 10px 25px rgba(255, 157, 0, 0.1);
+    --nav-height: 60px;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Comic Sans MS', 'Pretendard', sans-serif;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
@@ -19,11 +19,7 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow-x: hidden;
-}
-
-/* Japanese Font Override */
-body.lang-ja {
-    font-family: "Meiryo", "MS PGothic", "Hiragino Kaku Gothic ProN", sans-serif;
+    word-break: keep-all;
 }
 
 .paw-bg {
@@ -36,21 +32,21 @@ body.lang-ja {
 
 .paw {
     position: absolute;
-    font-size: 3rem;
-    opacity: 0.1;
-    transform: rotate(20deg);
+    font-size: 2rem;
+    opacity: 0.05;
 }
 
-.print-1 { top: 10%; left: 5%; }
-.print-2 { bottom: 10%; right: 10%; font-size: 5rem; }
+.print-1 { top: 10%; left: 5%; transform: rotate(20deg); }
+.print-2 { bottom: 10%; right: 10%; font-size: 4rem; transform: rotate(-15deg); }
 .print-3 { top: 20%; right: 15%; transform: rotate(-30deg); }
-.print-4 { bottom: 25%; left: 12%; }
+.print-4 { bottom: 25%; left: 12%; transform: rotate(10deg); }
 
 /* Navigation Styles */
 .navbar {
     width: 100%;
-    height: var(--nav-height);
-    background: rgba(255, 255, 255, 0.9);
+    height: auto;
+    min-height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: center;
@@ -59,176 +55,92 @@ body.lang-ja {
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 10px 0;
 }
 
 .nav-container {
     width: 90%;
     max-width: 1000px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
 .nav-logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.3rem;
+    font-weight: 800;
     color: var(--primary-color);
     text-decoration: none;
 }
 
 .nav-links {
     display: flex;
-    gap: 25px;
-    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--text-color);
     font-weight: 600;
+    font-size: 0.9rem;
     transition: color 0.3s;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
     color: var(--secondary-color);
 }
 
-/* Google Translate Widget Styling */
-#google_translate_element {
-    display: block !important;
-    min-width: 130px !important;
-    min-height: 26px !important;
-}
-
-.goog-te-gadget-simple {
-    background-color: white !important;
-    border: 1px solid var(--primary-color) !important;
-    border-radius: 20px !important;
-    padding: 3px 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    cursor: pointer;
-    visibility: visible !important;
-}
-
-.goog-te-gadget-icon {
-    display: none !important;
-}
-
-.goog-te-menu-value {
-    color: var(--text-color) !important;
-    font-size: 12px !important;
-    margin: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.goog-te-menu-value::before {
-    content: '🌐 ';
-    font-size: 14px;
-}
-
-.goog-te-gadget img {
-    display: none !important;
-}
-
-.goog-logo-link {
-    display: none !important;
-}
-
-.goog-te-gadget {
-    font-size: 0 !important;
-}
-
-.goog-te-banner-frame {
-    display: none !important;
-}
-
-body {
-    top: 0 !important;
-}
-
-.container {
+/* Container Styles */
+.container, .page-container, .edu-section {
     position: relative;
     z-index: 1;
-    width: 90%;
+    width: 92%;
     max-width: 800px;
     background: var(--card-bg);
-    padding: 40px;
-    border-radius: 40px;
+    padding: 30px 20px;
+    border-radius: 30px;
     box-shadow: var(--shadow);
     text-align: center;
-    border: 8px solid #fff;
-    margin: 40px 0;
-}
-
-.lang-selector {
-    margin-bottom: 20px;
-}
-
-#lang-select {
-    padding: 5px 15px;
-    border-radius: 20px;
-    border: 2px solid var(--primary-color);
-    background: white;
-    color: var(--text-color);
-    font-size: 0.9rem;
-    outline: none;
-    cursor: pointer;
+    margin: 20px 0;
+    box-sizing: border-box;
 }
 
 header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
     color: var(--primary-color);
-    letter-spacing: -1px;
 }
 
 .subtitle {
-    font-size: 1.2rem;
+    font-size: 1rem;
     opacity: 0.8;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .intro-box {
     background: #fff5e6;
-    padding: 20px;
-    border-radius: 25px;
-    margin-bottom: 35px;
-    font-size: 1.05rem;
+    padding: 15px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    font-size: 0.95rem;
     line-height: 1.6;
     border: 2px dashed var(--primary-color);
 }
 
-.warning-text {
-    color: #d32f2f;
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-top: 10px;
-}
-
-#snapshot-area {
-    background: white;
-    padding: 20px;
-    border-radius: 35px;
-}
-
 .webcam-box {
-    width: 320px;
-    height: 320px;
-    margin: 0 auto 30px;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 20px;
     border-radius: 50%;
     overflow: hidden;
     background: #f0f0f0;
     position: relative;
-    border: 8px solid var(--primary-color);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    border: 6px solid var(--primary-color);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 #webcam-container canvas {
@@ -239,202 +151,116 @@ header h1 {
 }
 
 .result-box {
-    margin-top: 25px;
-    padding: 25px;
+    margin-top: 20px;
+    padding: 20px;
     background: #fffaf0;
-    border-radius: 30px;
+    border-radius: 25px;
     border: 2px solid #ffe0b2;
-}
-
-.prediction-bar-container {
-    margin-bottom: 15px;
 }
 
 .prediction-label {
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: flex;
     justify-content: space-between;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .bar-outer {
     width: 100%;
-    height: 15px;
+    height: 12px;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 10px;
     border: 1px solid #eee;
 }
 
 .bar-inner {
     height: 100%;
     background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-    border-radius: 12px;
-    transition: width 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 10px;
 }
 
 .animal-description {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: bold;
     color: var(--secondary-color);
-    margin-top: 20px;
-    line-height: 1.4;
+    margin-top: 15px;
 }
 
 .controls {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 25px;
 }
 
 .main-btn {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
-    padding: 18px 50px;
-    font-size: 1.2rem;
+    padding: 15px 40px;
+    font-size: 1.1rem;
     font-weight: bold;
-    border-radius: 60px;
+    border-radius: 50px;
+    width: 80%;
+    max-width: 300px;
     cursor: pointer;
-    box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
-    transition: all 0.3s;
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
 }
 
 .sub-btn {
     background: #5d4037;
     color: white;
     border: none;
-    padding: 14px 40px;
-    font-size: 1rem;
+    padding: 12px 30px;
+    font-size: 0.9rem;
     font-weight: bold;
-    border-radius: 60px;
+    border-radius: 50px;
+    width: 80%;
+    max-width: 300px;
     cursor: pointer;
-    transition: all 0.3s;
 }
 
-.main-btn:hover, .sub-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(255, 107, 107, 0.5);
-}
-
-/* Educational Content Section */
+/* Educational Content */
 .edu-section {
-    width: 90%;
-    max-width: 800px;
-    background: white;
-    padding: 50px;
-    border-radius: 40px;
-    margin: 40px 0;
     text-align: left;
-    box-shadow: var(--shadow);
+    padding: 30px 25px;
 }
 
-.edu-section h2 {
-    color: var(--primary-color);
-    font-size: 2rem;
-    margin-bottom: 25px;
-    border-bottom: 3px solid #fff5e6;
-    padding-bottom: 10px;
-}
+.edu-section h2 { font-size: 1.5rem; margin-bottom: 15px; color: var(--primary-color); }
+.edu-section h3 { font-size: 1.2rem; margin-top: 20px; color: var(--secondary-color); }
+.edu-section p, .edu-section li { font-size: 0.95rem; line-height: 1.7; }
 
-.edu-section h3 {
-    color: var(--secondary-color);
-    font-size: 1.5rem;
-    margin-top: 30px;
-}
-
-.edu-section p {
-    line-height: 1.8;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-}
-
-.edu-section ul {
-    margin-bottom: 20px;
-}
-
-.edu-section li {
-    margin-bottom: 10px;
-    line-height: 1.6;
-}
-
-/* Page Specific (About, Privacy, Terms) */
-.page-container {
-    width: 90%;
-    max-width: 900px;
-    background: white;
-    padding: 60px;
-    border-radius: 40px;
-    margin: 40px 0;
-    box-shadow: var(--shadow);
-}
-
-.page-container h1 {
-    color: var(--primary-color);
-    margin-bottom: 30px;
-}
-
-.page-container section {
-    margin-bottom: 40px;
-}
-
-/* Footer Styles */
+/* Footer */
 .main-footer {
     width: 100%;
     background: #333;
     color: white;
-    padding: 60px 0 30px;
+    padding: 40px 0 20px;
     margin-top: auto;
 }
 
 .footer-content {
     width: 90%;
-    max-width: 1000px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.footer-section h4 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-}
-
-.footer-section p, .footer-section ul {
-    font-size: 0.95rem;
-    opacity: 0.8;
-}
-
-.footer-section ul {
-    list-style: none;
-    padding: 0;
-}
-
-.footer-section ul li {
-    margin-bottom: 12px;
-}
-
-.footer-section ul li a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.footer-section ul li a:hover {
-    color: var(--primary-color);
-}
+.footer-section h4 { color: var(--primary-color); margin-bottom: 15px; }
+.footer-section p, .footer-section ul { font-size: 0.85rem; opacity: 0.8; padding: 0; list-style: none; }
+.footer-section ul li { margin-bottom: 10px; }
+.footer-section a { color: white; text-decoration: none; }
 
 .footer-bottom {
     text-align: center;
-    margin-top: 40px;
-    padding-top: 20px;
+    margin-top: 30px;
+    padding-top: 15px;
     border-top: 1px solid rgba(255,255,255,0.1);
-    font-size: 0.85rem;
-    opacity: 0.6;
+    font-size: 0.75rem;
+    opacity: 0.5;
 }
 
 .hidden { display: none !important; }
@@ -443,21 +269,24 @@ header h1 {
     border: 4px solid #f3f3f3;
     border-top: 4px solid var(--primary-color);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     animation: spin 1s linear infinite;
-    margin: 110px auto 20px;
+    margin: 100px auto 20px;
 }
 
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-@media (max-width: 600px) {
-    .container, .edu-section, .page-container {
-        padding: 25px;
-        border-radius: 30px;
-    }
-    
-    header h1 { font-size: 1.8rem; }
-    .webcam-box { width: 260px; height: 260px; }
-    .nav-links { gap: 15px; font-size: 0.9rem; }
+/* Desktop Adjustment */
+@media (min-width: 768px) {
+    .navbar { padding: 0; }
+    .nav-container { flex-direction: row; justify-content: space-between; height: 70px; }
+    .nav-links { gap: 25px; }
+    .nav-links a { font-size: 1rem; }
+    header h1 { font-size: 2.5rem; }
+    .webcam-box { width: 320px; height: 320px; }
+    .container, .page-container, .edu-section { padding: 50px; margin: 40px 0; }
+    .footer-content { flex-direction: row; justify-content: space-between; }
+    .main-btn, .sub-btn { width: auto; }
+    .controls { flex-direction: row; justify-content: center; }
 }

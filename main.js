@@ -83,7 +83,7 @@ function stopWebcam() {
 async function analyzePalm() {
     // API KEY 노출을 방지하려면 서버 측에서 처리하거나, Vertex AI for Firebase를 설정해야 합니다.
     // 여기서는 동작 방식을 보여주기 위해 이전 로직을 유지하되, 로그인된 사용자만 버튼을 누를 수 있습니다.
-    const TEMPORARY_GEMINI_KEY = "YOUR_GEMINI_API_KEY_HERE"; // 실제 운영 시에는 백엔드 프록시 권장
+    const TEMPORARY_GEMINI_KEY = "AIzaSyA4KSxUU7x6Q4mlHcqa9gLXUQIqsImErLE"; // 실제 운영 시에는 백엔드 프록시 권장
 
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;

@@ -158,8 +158,13 @@ async function predict() {
         const className = prediction[i].className;
         const probability = (prediction[i].probability * 100).toFixed(0);
         
-        // Translate class names for UI
-        const translatedName = (className === "Dog" || className === "강아지") ? t.dog : t.cat;
+        // Dynamic mapping based on updated model labels
+        let translatedName = className;
+        if (className.toLowerCase().includes('dog') || className.includes('강아지')) {
+            translatedName = t.dog;
+        } else if (className.toLowerCase().includes('cat') || className.includes('고양이')) {
+            translatedName = t.cat;
+        }
         
         const barContainer = labelContainer.childNodes[i];
         if (barContainer) {
@@ -173,7 +178,8 @@ async function predict() {
         }
     }
 
-    const message = (topChoice.className === "Dog" || topChoice.className === "강아지") ? t.dogDesc : t.catDesc;
+    const isDog = topChoice.className.toLowerCase().includes('dog') || topChoice.className.includes('강아지');
+    const message = isDog ? t.dogDesc : t.catDesc;
     animalDesc.innerText = message;
 }
 

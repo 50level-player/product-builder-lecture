@@ -1,35 +1,74 @@
 const themeBtn = document.getElementById('theme-btn');
 const body = document.body;
 const menuDisplay = document.getElementById('menu-display');
-const menuIcon = document.querySelector('.menu-icon');
-const menuName = document.querySelector('.menu-name');
-const mealButtons = document.querySelectorAll('.meal-btn');
+const placeholder = document.getElementById('placeholder');
+const dishImg = document.getElementById('dish-img');
+const dishIcon = document.getElementById('dish-icon');
+const dishName = document.getElementById('dish-name');
+const dishDesc = document.getElementById('dish-desc');
+const catButtons = document.querySelectorAll('.cat-btn');
 
 // Menu Database
 const menus = {
-    breakfast: [
-        { name: "Toast & Jam", icon: "🍞" },
-        { name: "Scrambled Eggs", icon: "🍳" },
-        { name: "Yogurt Bowl", icon: "🥣" },
-        { name: "Pancakes", icon: "🥞" },
-        { name: "Fresh Fruit", icon: "🍎" },
-        { name: "Croissant", icon: "🥐" }
+    korean: [
+        { 
+            name: "Bibimbap", 
+            icon: "🥗", 
+            desc: "A healthy bowl of rice topped with seasonal vegetables, beef, and spicy gochujang sauce.",
+            img: "https://images.unsplash.com/photo-1590301157890-4810ed352733?q=80&w=600"
+        },
+        { 
+            name: "Kimchi Jjigae", 
+            icon: "🥘", 
+            desc: "A spicy, hearty stew made with well-fermented kimchi, tofu, and pork.",
+            img: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=600"
+        },
+        { 
+            name: "Bulgogi", 
+            icon: "🍛", 
+            desc: "Thinly sliced beef marinated in a sweet and savory sauce, then grilled to perfection.",
+            img: "https://images.unsplash.com/photo-1662116765994-1e304604f796?q=80&w=600"
+        }
     ],
-    lunch: [
-        { name: "Bibimbap", icon: "🥗" },
-        { name: "Chicken Sandwich", icon: "🥪" },
-        { name: "Pasta Carbonara", icon: "🍝" },
-        { name: "Kimchi Stew", icon: "🥘" },
-        { name: "Burger & Fries", icon: "🍔" },
-        { name: "Sushi Platter", icon: "🍣" }
+    western: [
+        { 
+            name: "Ribeye Steak", 
+            icon: "🥩", 
+            desc: "Juicy, tender steak grilled with garlic butter and rosemary for a rich flavor.",
+            img: "https://images.unsplash.com/photo-1546241072-48010ad28c2c?q=80&w=600"
+        },
+        { 
+            name: "Pasta Carbonara", 
+            icon: "🍝", 
+            desc: "Classic Italian pasta with a creamy sauce made from eggs, cheese, and crispy bacon.",
+            img: "https://images.unsplash.com/photo-1612874742237-6526221588e3?q=80&w=600"
+        },
+        { 
+            name: "Classic Burger", 
+            icon: "🍔", 
+            desc: "A thick beef patty with fresh lettuce, tomato, and cheese in a toasted brioche bun.",
+            img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=600"
+        }
     ],
-    dinner: [
-        { name: "Steak", icon: "🥩" },
-        { name: "Spicy Tofu Stew", icon: "🍲" },
-        { name: "Roasted Chicken", icon: "🍗" },
-        { name: "Bulgogi", icon: "🍛" },
-        { name: "Tacos", icon: "🌮" },
-        { name: "Pizza Night", icon: "🍕" }
+    japanese: [
+        { 
+            name: "Sushi Platter", 
+            icon: "🍣", 
+            desc: "Fresh, high-quality fish served over vinegared rice. A delicate and clean taste.",
+            img: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=600"
+        },
+        { 
+            name: "Tonkotsu Ramen", 
+            icon: "🍜", 
+            desc: "Rich and creamy pork bone broth served with chewy noodles and tender chashu pork.",
+            img: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=600"
+        },
+        { 
+            name: "Salmon Donburi", 
+            icon: "🍱", 
+            desc: "Fresh slices of raw salmon over a bowl of seasoned rice, served with wasabi.",
+            img: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=600"
+        }
     ]
 };
 
@@ -51,22 +90,27 @@ themeBtn.addEventListener('click', () => {
     }
 });
 
-// Menu Recommendation Logic
-mealButtons.forEach(btn => {
+// Category Selection Logic
+catButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        const mealType = btn.getAttribute('data-meal');
-        const mealList = menus[mealType];
-        
-        // Random selection
-        const randomIndex = Math.floor(Math.random() * mealList.length);
-        const selected = mealList[randomIndex];
+        const category = btn.getAttribute('data-category');
+        const list = menus[category];
+        const randomItem = list[Math.floor(Math.random() * list.length)];
 
-        // Display with animation
-        menuDisplay.classList.remove('animate-pop');
-        void menuDisplay.offsetWidth; // Trigger reflow
+        // Hide placeholder, show display
+        placeholder.classList.add('hidden');
+        menuDisplay.classList.remove('hidden');
         
-        menuIcon.textContent = selected.icon;
-        menuName.textContent = selected.name;
-        menuDisplay.classList.add('animate-pop');
+        // Update content
+        dishImg.src = randomItem.img;
+        dishImg.alt = randomItem.name;
+        dishIcon.textContent = randomItem.icon;
+        dishName.textContent = randomItem.name;
+        dishDesc.textContent = randomItem.desc;
+
+        // Animate
+        menuDisplay.classList.remove('animate-fade-in');
+        void menuDisplay.offsetWidth; // Trigger reflow
+        menuDisplay.classList.add('animate-fade-in');
     });
 });

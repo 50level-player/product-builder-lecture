@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today's Menu Recommender</title>
+    <title>Global Flavor Recommender</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,18 +11,30 @@
         <div class="theme-toggle">
             <button id="theme-btn">🌙 Dark Mode</button>
         </div>
-        <h1>🍽️ Today's Menu?</h1>
-        <p class="subtitle">Choose a meal time for a recommendation!</p>
+        <h1>🍽️ World Cuisine</h1>
+        <p class="subtitle">Select a cuisine category!</p>
         
-        <div class="meal-buttons">
-            <button class="meal-btn" data-meal="breakfast">🌅 Breakfast</button>
-            <button class="meal-btn" data-meal="lunch">☀️ Lunch</button>
-            <button class="meal-btn" data-meal="dinner">🌙 Dinner</button>
+        <div class="category-buttons">
+            <button class="cat-btn" data-category="korean">🇰🇷 Korean</button>
+            <button class="cat-btn" data-category="western">🍔 Western</button>
+            <button class="cat-btn" data-category="japanese">🍣 Japanese</button>
         </div>
 
-        <div id="menu-display" class="menu-card">
-            <div class="menu-icon">❓</div>
-            <div class="menu-name">Click a button!</div>
+        <div id="menu-display" class="menu-card hidden">
+            <div class="image-container">
+                <img id="dish-img" src="" alt="Dish Image">
+            </div>
+            <div class="content-area">
+                <div class="menu-header">
+                    <span class="menu-icon" id="dish-icon">❓</span>
+                    <h2 class="menu-name" id="dish-name">Dish Name</h2>
+                </div>
+                <p class="menu-desc" id="dish-desc">Simple description goes here.</p>
+            </div>
+        </div>
+        
+        <div id="placeholder" class="placeholder-card">
+            <p>Click a category to see a recommendation!</p>
         </div>
     </div>
     <script src="main.js"></script>

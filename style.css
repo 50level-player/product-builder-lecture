@@ -20,6 +20,11 @@ body {
     overflow-x: hidden;
 }
 
+/* Japanese Font Override */
+body.lang-ja {
+    font-family: "Meiryo", "MS PGothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
 .paw-bg {
     position: fixed;
     width: 100%;

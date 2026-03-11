@@ -62,6 +62,11 @@ const i18n = {
 function updateLanguage(lang) {
     currentLang = lang;
     const t = i18n[lang];
+    
+    // Set language class for font switching
+    body.classList.remove('lang-ko', 'lang-ja', 'lang-en');
+    body.classList.add(`lang-${lang}`);
+
     document.title = t.siteTitle;
     document.getElementById('main-title').textContent = t.mainTitle;
     document.getElementById('main-subtitle').textContent = t.mainSubtitle;

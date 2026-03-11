@@ -1,23 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Flavor Recommender</title>
+    <title id="site-title">Global Flavor Recommender</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="theme-toggle">
-            <button id="theme-btn">🌙 Dark Mode</button>
+        <div class="top-controls">
+            <div class="lang-selector">
+                <select id="lang-select">
+                    <option value="ko" selected>🇰🇷 한국어</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                </select>
+            </div>
+            <div class="theme-toggle">
+                <button id="theme-btn">🌙 Dark Mode</button>
+            </div>
         </div>
-        <h1>🍽️ World Cuisine</h1>
-        <p class="subtitle">Select a cuisine category!</p>
+
+        <h1 id="main-title">🍽️ World Cuisine</h1>
+        <p class="subtitle" id="main-subtitle">Select a cuisine category!</p>
         
         <div class="category-buttons">
-            <button class="cat-btn" data-category="korean">🇰🇷 Korean</button>
-            <button class="cat-btn" data-category="western">🍔 Western</button>
-            <button class="cat-btn" data-category="japanese">🍣 Japanese</button>
+            <button class="cat-btn" data-category="korean" id="cat-ko">🇰🇷 Korean</button>
+            <button class="cat-btn" data-category="western" id="cat-we">🍔 Western</button>
+            <button class="cat-btn" data-category="japanese" id="cat-ja">🍣 Japanese</button>
         </div>
 
         <div id="menu-display" class="menu-card hidden">
@@ -34,25 +44,25 @@
         </div>
         
         <div id="placeholder" class="placeholder-card">
-            <p>Click a category to see a recommendation!</p>
+            <p id="placeholder-text">Click a category to see a recommendation!</p>
         </div>
 
         <hr class="divider">
 
         <div class="contact-section">
-            <h3>🤝 Partnership Inquiry</h3>
-            <p class="contact-desc">Interested in a partnership? Send us a message!</p>
+            <h3 id="contact-title">🤝 Partnership Inquiry</h3>
+            <p class="contact-desc" id="contact-desc">Interested in a partnership? Send us a message!</p>
             <form action="https://formspree.io/f/mbdzgnwe" method="POST" class="contact-form">
                 <div class="form-group">
-                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="text" name="name" id="form-name" placeholder="Your Name" required>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="_replyto" placeholder="Your Email" required>
+                    <input type="email" name="_replyto" id="form-email" placeholder="Your Email" required>
                 </div>
                 <div class="form-group">
-                    <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                    <textarea name="message" id="form-msg" placeholder="Your Message" rows="4" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Send Inquiry</button>
+                <button type="submit" class="submit-btn" id="form-submit">Send Inquiry</button>
             </form>
         </div>
     </div>

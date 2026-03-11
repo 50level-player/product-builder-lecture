@@ -38,15 +38,28 @@ body {
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 10px 30px var(--shadow);
-    width: 90%;
+    width: 95%;
     max-width: 500px;
     position: relative;
+    margin: 20px 0;
 }
 
-.theme-toggle {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.lang-selector select {
+    background-color: var(--container-bg);
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    padding: 5px 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
 }
 
 #theme-btn {
@@ -62,7 +75,7 @@ body {
 .category-buttons {
     display: flex;
     justify-content: space-around;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 30px;
 }
 
@@ -70,17 +83,18 @@ body {
     background-color: var(--btn-bg);
     color: white;
     border: none;
-    padding: 12px 18px;
-    border-radius: 12px;
+    padding: 12px 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
     flex: 1;
+    font-size: 0.85rem;
     transition: transform 0.2s, background-color 0.2s;
 }
 
 .cat-btn:hover {
     background-color: var(--btn-hover);
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
 .menu-card {
@@ -126,12 +140,12 @@ body {
 .menu-name {
     margin: 0;
     color: var(--accent-color);
-    font-size: 1.4rem;
+    font-size: 1.3rem;
 }
 
 .menu-desc {
     margin: 0;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.5;
     opacity: 0.9;
 }
@@ -143,16 +157,12 @@ body {
     color: #888;
 }
 
-.animate-fade-in {
-    animation: fadeIn 0.5s ease;
-}
-
 /* Contact Section Styles */
 .divider {
     border: 0;
     height: 1px;
     background: #ddd;
-    margin: 40px 0;
+    margin: 30px 0;
 }
 
 .dark-mode .divider {
@@ -161,17 +171,16 @@ body {
 
 .contact-section {
     text-align: left;
-    margin-top: 20px;
 }
 
 .contact-section h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-bottom: 5px;
     color: var(--text-color);
 }
 
 .contact-desc {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     opacity: 0.7;
     margin-bottom: 15px;
 }
@@ -179,18 +188,18 @@ body {
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .form-group input, 
 .form-group textarea {
     width: 100%;
-    padding: 10px 12px;
+    padding: 8px 10px;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: var(--container-bg);
     color: var(--text-color);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     box-sizing: border-box;
 }
 
@@ -198,23 +207,21 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
 }
 
 .submit-btn {
     background-color: var(--accent-color);
     color: white;
     border: none;
-    padding: 12px;
-    border-radius: 8px;
+    padding: 10px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: opacity 0.2s;
+    font-size: 0.9rem;
 }
 
-.submit-btn:hover {
-    opacity: 0.9;
+.animate-fade-in {
+    animation: fadeIn 0.5s ease;
 }
 
 @keyframes fadeIn {

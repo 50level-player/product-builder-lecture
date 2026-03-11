@@ -97,35 +97,40 @@ body.lang-ja {
 #google_translate_element {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 10px;
+    margin-left: 15px;
+    min-width: 40px;
+    height: 30px;
+    overflow: hidden;
 }
 
 .goog-te-gadget-simple {
     background-color: transparent !important;
-    border: none !important;
-    padding: 0 !important;
+    border: 1px solid var(--primary-color) !important;
+    border-radius: 20px !important;
+    padding: 5px 10px !important;
     display: flex !important;
     align-items: center !important;
     cursor: pointer;
+    font-size: 0.9rem !important;
+    color: var(--text-color) !important;
 }
 
 .goog-te-gadget-icon {
-    margin-right: 0 !important;
-    width: 20px !important;
-    height: 20px !important;
+    display: none !important;
 }
 
-.goog-te-menu-value span:nth-child(1),
+.goog-te-menu-value span:first-child {
+    display: inline-block !important;
+}
+
 .goog-te-menu-value span:nth-child(3),
 .goog-te-menu-value span:nth-child(5) {
     display: none !important;
 }
 
-.goog-te-menu-value:after {
-    content: '🌐' !important;
-    font-size: 1.2rem !important;
-    margin-left: 5px;
-    color: var(--primary-color);
+.goog-te-menu-value::before {
+    content: '🌐 ';
+    font-size: 1.1rem;
 }
 
 .goog-te-gadget img {
@@ -140,44 +145,20 @@ body {
     top: 0px !important;
 }
 
-.goog-te-gadget-simple {
-    background-color: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    font-family: inherit !important;
-    display: flex !important;
-    align-items: center;
-    cursor: pointer;
-}
-
-.goog-te-gadget-simple img {
+.goog-logo-link {
     display: none !important;
-}
-
-.goog-te-gadget-simple span {
-    display: none !important;
-}
-
-.goog-te-gadget-simple::before {
-    content: '🌐';
-    font-size: 1.2rem;
-    margin-left: 5px;
 }
 
 .goog-te-gadget {
     font-size: 0 !important;
 }
 
-.goog-logo-link {
-    display: none !important;
+.goog-te-gadget * {
+    font-size: 12px !important;
 }
 
-.goog-te-banner-frame {
-    display: none !important;
-}
-
-body {
-    top: 0 !important;
+.goog-te-menu-value {
+    margin: 0 !important;
 }
 
 .container {

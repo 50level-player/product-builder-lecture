@@ -13,6 +13,7 @@ const resultContainer = document.getElementById('result-container');
 const animalDesc = document.getElementById('animal-desc');
 const langSelect = document.getElementById('lang-select');
 const snapshotArea = document.getElementById('snapshot-area');
+const body = document.body;
 
 const i18n = {
     en: {
@@ -26,8 +27,10 @@ const i18n = {
         retryBtn: "🔄 Try Again",
         downloadBtn: "📸 Save Snapshot",
         resultTitle: "Analysis Result",
-        dog: "You are a cute and friendly Puppy! 🐶\nYou love hanging out with people and have a bright, positive energy.",
-        cat: "You are a chic and charming Kitty! 🐱\nYou have a mysterious vibe and a delicate, sensitive soul."
+        dog: "Dog (Puppy)",
+        cat: "Cat (Kitty)",
+        dogDesc: "You are a cute and friendly Puppy! 🐶\nYou love hanging out with people and have a bright, positive energy.",
+        catDesc: "You are a chic and charming Kitty! 🐱\nYou have a mysterious vibe and a delicate, sensitive soul."
     },
     ko: {
         siteTitle: "AI 동물상 테스트 - 강아지? 고양이?",
@@ -40,22 +43,26 @@ const i18n = {
         retryBtn: "🔄 다시 하기",
         downloadBtn: "📸 결과 저장하기",
         resultTitle: "분석 결과",
-        dog: "당신은 귀엽고 친근한 강아지상! 🐶\n사람들과 어울리는 것을 좋아하고 밝은 에너지를 가지고 계시네요.",
-        cat: "당신은 도도하고 매력적인 고양이상! 🐱\n신비로운 분위기와 함께 섬세한 감성을 가지고 계시네요."
+        dog: "강아지상",
+        cat: "고양이상",
+        dogDesc: "당신은 귀엽고 친근한 강아지상! 🐶\n사람들과 어울리는 것을 좋아하고 밝은 에너지를 가지고 계시네요.",
+        catDesc: "당신은 도도하고 매력적인 고양이상! 🐱\n신비로운 분위기와 함께 섬세한 감성을 가지고 계시네요."
     },
     ja: {
         siteTitle: "AI動物顔診断 - イヌ派？ネコ派？",
         mainTitle: "🐶 AI動物顔診断 🐱",
         mainSubtitle: "あなたは可愛いイヌ顔？それともクールなネコ顔？",
-        appDesc: "最先端AIであなたの隠れた動物タイプ를 診断しましょう！カメラ에 顔을 映すだけで, 魔法のような分析が始まります. 🐾",
+        appDesc: "最先端AIであなたの隠れた動物タイプを診断しましょう！カメラに顔을 映すだけで, 魔法のような分析が始まります. 🐾",
         webcamWarning: "⚠️ 注意: このアプリはウェブカメラが必要です.",
         loadingText: "AIを呼び出し中...",
         startBtn: "✨ 診断を始める",
         retryBtn: "🔄 もう一度",
         downloadBtn: "📸 結果を保存",
         resultTitle: "診断結果",
-        dog: "あなたは可愛くてフレンドリーなイヌ顔！ 🐶\n人と過ごすのが大好きで, 明るいエネルギーを持っていますね。",
-        cat: "あなたはクールで魅力的なネコ顔！ 🐱\nミステリアスな雰囲気と, 繊細な感性を持っていますね。"
+        dog: "イヌ顔",
+        cat: "ネコ顔",
+        dogDesc: "あなたは可愛くてフレンドリーなイヌ顔！ 🐶\n人と過ごすのが大好きで, 明る이 エネルギーを持っていますね。",
+        catDesc: "あなたはクールで魅力的なネコ顔！ 🐱\nミステリアスな雰囲気と, 繊細な感性を持っていますね。"
     }
 };
 
@@ -63,7 +70,7 @@ function updateLanguage(lang) {
     currentLang = lang;
     const t = i18n[lang];
     
-    // Set language class for font switching
+    // Body class for fonts
     body.classList.remove('lang-ko', 'lang-ja', 'lang-en');
     body.classList.add(`lang-${lang}`);
 
@@ -78,7 +85,10 @@ function updateLanguage(lang) {
     document.getElementById('download-btn').textContent = t.downloadBtn;
     document.getElementById('result-title').textContent = t.resultTitle;
     
-    if (isRunning) predict();
+    // If testing is ongoing or done, refresh the text
+    if (isRunning || !resultContainer.classList.contains('hidden')) {
+        predict();
+    }
 }
 
 async function init() {
@@ -98,7 +108,9 @@ async function init() {
         await webcam.play();
         
         loadingSpinner.classList.add('hidden');
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
+        const container = document.getElementById("webcam-container");
+        container.innerHTML = '';
+        container.appendChild(webcam.canvas);
         
         labelContainer = document.getElementById("label-container");
         labelContainer.innerHTML = '';
@@ -137,16 +149,21 @@ async function loop() {
 }
 
 async function predict() {
+    if (!model) return;
     const prediction = await model.predict(webcam.canvas);
     let topChoice = { className: "", probability: 0 };
+    const t = i18n[currentLang];
 
     for (let i = 0; i < maxPredictions; i++) {
         const className = prediction[i].className;
         const probability = (prediction[i].probability * 100).toFixed(0);
         
+        // Translate class names for UI
+        const translatedName = (className === "Dog" || className === "강아지") ? t.dog : t.cat;
+        
         const barContainer = labelContainer.childNodes[i];
         if (barContainer) {
-            barContainer.querySelector('.class-name').textContent = className;
+            barContainer.querySelector('.class-name').textContent = translatedName;
             barContainer.querySelector('.percentage').textContent = probability + "%";
             barContainer.querySelector('.bar-inner').style.width = probability + "%";
         }
@@ -156,24 +173,23 @@ async function predict() {
         }
     }
 
-    const t = i18n[currentLang];
-    const message = (topChoice.className === "Dog" || topChoice.className === "강아지") ? t.dog : t.cat;
+    const message = (topChoice.className === "Dog" || topChoice.className === "강아지") ? t.dogDesc : t.catDesc;
     animalDesc.innerText = message;
 }
 
-// Snapshot Logic
 async function saveSnapshot() {
-    isRunning = false; // Stop live update for snapshot
+    const wasRunning = isRunning;
+    isRunning = false;
     const canvas = await html2canvas(snapshotArea, {
         backgroundColor: "#fffaf0",
-        scale: 2 // High quality
+        scale: 2
     });
     
     const link = document.createElement('a');
     link.download = `AI-Animal-Result-${new Date().getTime()}.png`;
     link.href = canvas.toDataURL();
     link.click();
-    isRunning = true; // Resume
+    isRunning = wasRunning;
 }
 
 langSelect.addEventListener('change', (e) => updateLanguage(e.target.value));

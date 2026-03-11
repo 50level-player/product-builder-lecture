@@ -3,71 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="site-title">Global Flavor Recommender</title>
+    <title>AI Rock Paper Scissors</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Teachable Machine Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="top-controls">
-            <div class="lang-selector">
-                <select id="lang-select">
-                    <option value="ko" selected>🇰🇷 한국어</option>
-                    <option value="en">🇺🇸 English</option>
-                    <option value="ja">🇯🇵 日本語</option>
-                </select>
-            </div>
+            <h1 id="main-title">🤖 AI 가위바위보</h1>
             <div class="theme-toggle">
                 <button id="theme-btn">🌙 Dark Mode</button>
             </div>
         </div>
 
-        <h1 id="main-title">🍽️ World Cuisine</h1>
-        <p class="subtitle" id="main-subtitle">Select a cuisine category!</p>
-        
-        <div class="category-buttons">
-            <button class="cat-btn" data-category="korean" id="cat-ko">🇰🇷 Korean</button>
-            <button class="cat-btn" data-category="western" id="cat-we">🍔 Western</button>
-            <button class="cat-btn" data-category="japanese" id="cat-ja">🍣 Japanese</button>
+        <div class="game-area">
+            <div class="webcam-container">
+                <div id="webcam-wrapper"></div>
+                <div id="countdown" class="hidden">3</div>
+                <div class="label-overlay">
+                    <span id="user-prediction">Ready...</span>
+                </div>
+            </div>
+
+            <div class="vs-divider">VS</div>
+
+            <div class="computer-container">
+                <div id="computer-choice" class="choice-icon">❓</div>
+                <div class="label-overlay">
+                    <span>Computer</span>
+                </div>
+            </div>
         </div>
 
-        <div id="menu-display" class="menu-card hidden">
-            <div class="image-container">
-                <img id="dish-img" src="" alt="Dish Image">
+        <div class="result-area">
+            <h2 id="game-result">Press Start!</h2>
+            <div class="score-board">
+                <div class="score">User: <span id="user-score">0</span></div>
+                <div class="score">AI: <span id="comp-score">0</span></div>
             </div>
-            <div class="content-area">
-                <div class="menu-header">
-                    <span class="menu-icon" id="dish-icon">❓</span>
-                    <h2 class="menu-name" id="dish-name">Dish Name</h2>
-                </div>
-                <p class="menu-desc" id="dish-desc">Simple description goes here.</p>
-                <div class="wiki-link-container">
-                    <a id="wiki-link" href="#" target="_blank" class="wiki-btn">📖 Read more on Wikipedia</a>
-                </div>
-            </div>
-            <!-- Disqus Comments -->
-            <div id="disqus_thread" style="padding: 20px; border-top: 1px solid var(--shadow);"></div>
         </div>
-        
-        <div id="placeholder" class="placeholder-card">
-            <p id="placeholder-text">Click a category to see a recommendation!</p>
+
+        <div class="controls">
+            <button id="start-btn" class="primary-btn">🎮 Game Start!</button>
         </div>
 
         <hr class="divider">
 
         <div class="contact-section">
-            <h3 id="contact-title">🤝 Partnership Inquiry</h3>
-            <p class="contact-desc" id="contact-desc">Interested in a partnership? Send us a message!</p>
+            <h3>🤝 Partnership Inquiry</h3>
             <form action="https://formspree.io/f/mbdzgnwe" method="POST" class="contact-form">
                 <div class="form-group">
-                    <input type="text" name="name" id="form-name" placeholder="Your Name" required>
+                    <input type="email" name="_replyto" placeholder="Your Email" required>
                 </div>
-                <div class="form-group">
-                    <input type="email" name="_replyto" id="form-email" placeholder="Your Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea name="message" id="form-msg" placeholder="Your Message" rows="4" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="form-submit">Send Inquiry</button>
+                <button type="submit" class="submit-btn">Send</button>
             </form>
         </div>
     </div>

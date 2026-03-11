@@ -1,204 +1,150 @@
+const URL = "https://teachablemachine.withgoogle.com/models/C8dwdd0xV/";
+
+let model, webcam, labelContainer, maxPredictions;
+let userScore = 0;
+let compScore = 0;
+let isPlaying = false;
+
+const startBtn = document.getElementById('start-btn');
 const themeBtn = document.getElementById('theme-btn');
-const langSelect = document.getElementById('lang-select');
 const body = document.body;
-const menuDisplay = document.getElementById('menu-display');
-const placeholder = document.getElementById('placeholder');
-const dishImg = document.getElementById('dish-img');
-const dishIcon = document.getElementById('dish-icon');
-const dishName = document.getElementById('dish-name');
-const dishDesc = document.getElementById('dish-desc');
-const wikiLink = document.getElementById('wiki-link');
-const catButtons = document.querySelectorAll('.cat-btn');
+const countdownEl = document.getElementById('countdown');
+const gameResultEl = document.getElementById('game-result');
+const userPredictionEl = document.getElementById('user-prediction');
+const computerChoiceEl = document.getElementById('computer-choice');
+const userScoreEl = document.getElementById('user-score');
+const compScoreEl = document.getElementById('comp-score');
 
-const i18n = {
-    ko: {
-        siteTitle: "세계 요리 추천기",
-        mainTitle: "🍽️ 세계 요리 추천",
-        mainSubtitle: "카테고리를 선택해 Wikipedia에서 정보를 가져옵니다!",
-        catKo: "🇰🇷 한식",
-        catWe: "🍔 양식",
-        catJa: "🍣 일식",
-        placeholder: "카테고리를 클릭하면 추천 메뉴가 나타납니다!",
-        contactTitle: "🤝 제휴 문의",
-        contactDesc: "제휴에 관심이 있으신가요? 메시지를 남겨주세요!",
-        formName: "성함",
-        formEmail: "이메일 주소",
-        formMsg: "문의 내용",
-        formSubmit: "문의 보내기",
-        darkMode: "🌙 다크 모드",
-        lightMode: "☀️ 라이트 모드",
-        readMore: "📖 Wikipedia에서 더 읽어보기"
-    },
-    en: {
-        siteTitle: "Global Flavor Recommender",
-        mainTitle: "🍽️ World Cuisine",
-        mainSubtitle: "Select a category to fetch info from Wikipedia!",
-        catKo: "🇰🇷 Korean",
-        catWe: "🍔 Western",
-        catJa: "🍣 Japanese",
-        placeholder: "Click a category to see a recommendation!",
-        contactTitle: "🤝 Partnership Inquiry",
-        contactDesc: "Interested in a partnership? Send us a message!",
-        formName: "Your Name",
-        formEmail: "Your Email",
-        formMsg: "Your Message",
-        formSubmit: "Send Inquiry",
-        darkMode: "🌙 Dark Mode",
-        lightMode: "☀️ Light Mode",
-        readMore: "📖 Read more on Wikipedia"
-    },
-    ja: {
-        siteTitle: "세계料理おすすめ",
-        mainTitle: "🍽️ 世界の料理",
-        mainSubtitle: "カテゴリーを選択してWikipediaから情報を取得します！",
-        catKo: "🇰🇷 韓国料理",
-        catWe: "🍔 洋食",
-        catJa: "🍣 日本料理",
-        placeholder: "カテゴリーをクリックするとおすすめメニューが表示されます！",
-        contactTitle: "🤝 提携のお問い合わせ",
-        contactDesc: "提携にご興味がありますか？メッセージを残してください！",
-        formName: "お名前",
-        formEmail: "メールアドレス",
-        formMsg: "お問い合わせ内容",
-        formSubmit: "送信する",
-        darkMode: "🌙 ダークモード",
-        lightMode: "☀️ ライトモード",
-        readMore: "📖 Wikipediaで詳しく読む"
-    }
+const choices = {
+    "주먹": { icon: "✊", wins: "가위" },
+    "가위": { icon: "✌️", wins: "보" },
+    "보": { icon: "✋", wins: "주먹" }
 };
 
-const menus = {
-    korean: [
-        "Bibimbap", "Kimchi", "Bulgogi", "Tteokbokki", "Samgyeopsal", 
-        "Japchae", "Samgyetang", "Pajeon", "Galbi", "Naengmyeon", 
-        "Kimbap", "Sundubu-jjigae", "Dak-galbi", "Mandu", "Jajangmyeon", 
-        "Jjamppong", "Bossam", "Gukbap", "Yukhoe", "Hoe (food)"
-    ],
-    japanese: [
-        "Sushi", "Ramen", "Sashimi", "Tempura", "Udon", 
-        "Tonkatsu", "Yakitori", "Takoyaki", "Okonomiyaki", "Unadon", 
-        "Soba", "Miso soup", "Onigiri", "Japanese curry", "Wagyu", 
-        "Gyoza", "Oden", "Sukiyaki", "Kaiseki", "Omurice"
-    ],
-    western: [
-        "Steak", "Pasta", "Hamburger", "Pizza", "Fish and chips", 
-        "Caesar salad", "Beef stew", "Taco", "Eggs Benedict", "Roast chicken", 
-        "Lasagna", "Clam chowder", "Hot dog", "Barbecue ribs", "Grilled cheese", 
-        "Onion soup", "Pancake", "Shepherd's pie", "Macaroni and cheese", "Buffalo wing"
-    ]
+// Map Teachable Machine labels to our internal labels if necessary
+// Assuming labels are "주먹", "가위", "보" or similar English equivalents
+const labelMap = {
+    "Rock": "주먹",
+    "Paper": "보",
+    "Scissors": "가위",
+    "주먹": "주먹",
+    "가위": "가위",
+    "보": "보"
 };
 
-let currentLang = 'ko';
-let currentDishData = null;
+// Load the image model and setup the webcam
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
-function updateLanguage(lang) {
-    currentLang = lang;
-    const t = i18n[lang];
-    document.title = t.siteTitle;
-    document.getElementById('site-title').textContent = t.siteTitle;
-    document.getElementById('main-title').textContent = t.mainTitle;
-    document.getElementById('main-subtitle').textContent = t.mainSubtitle;
-    document.getElementById('cat-ko').textContent = t.catKo;
-    document.getElementById('cat-we').textContent = t.catWe;
-    document.getElementById('cat-ja').textContent = t.catJa;
-    document.getElementById('placeholder-text').textContent = t.placeholder;
-    document.getElementById('contact-title').textContent = t.contactTitle;
-    document.getElementById('contact-desc').textContent = t.contactDesc;
-    document.getElementById('form-name').placeholder = t.formName;
-    document.getElementById('form-email').placeholder = t.formEmail;
-    document.getElementById('form-msg').placeholder = t.formMsg;
-    document.getElementById('form-submit').textContent = t.formSubmit;
-    wikiLink.textContent = t.readMore;
+    startBtn.disabled = true;
+    startBtn.textContent = "Loading Model...";
 
-    if (body.classList.contains('dark-mode')) {
-        themeBtn.textContent = t.lightMode;
-    } else {
-        themeBtn.textContent = t.darkMode;
-    }
+    model = await tmImage.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
 
-    if (currentDishData) {
-        dishName.textContent = currentDishData.title;
-        dishDesc.textContent = currentDishData.extract;
-    }
+    const flip = true; // whether to flip the webcam
+    webcam = new tmImage.Webcam(300, 300, flip); // width, height, flip
+    await webcam.setup(); // request access to the webcam
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+
+    document.getElementById("webcam-wrapper").appendChild(webcam.canvas);
+    
+    startBtn.disabled = false;
+    startBtn.textContent = "🎮 Game Start!";
 }
 
-langSelect.addEventListener('change', (e) => updateLanguage(e.target.value));
+async function loop() {
+    webcam.update(); // update the webcam frame
+    if (!isPlaying) {
+        await predict();
+    }
+    window.requestAnimationFrame(loop);
+}
 
+async function predict() {
+    const prediction = await model.predict(webcam.canvas);
+    let topPrediction = "";
+    let maxProbability = 0;
+
+    for (let i = 0; i < maxPredictions; i++) {
+        if (prediction[i].probability > maxProbability) {
+            maxProbability = prediction[i].probability;
+            topPrediction = prediction[i].className;
+        }
+    }
+
+    const mappedLabel = labelMap[topPrediction] || topPrediction;
+    userPredictionEl.textContent = mappedLabel;
+    return mappedLabel;
+}
+
+async function startGame() {
+    if (isPlaying) return;
+    isPlaying = true;
+    startBtn.disabled = true;
+    gameResultEl.textContent = "Get Ready!";
+    computerChoiceEl.textContent = "❓";
+
+    // Countdown
+    let count = 3;
+    countdownEl.classList.remove('hidden');
+    countdownEl.textContent = count;
+
+    const timer = setInterval(async () => {
+        count--;
+        if (count > 0) {
+            countdownEl.textContent = count;
+        } else {
+            clearInterval(timer);
+            countdownEl.classList.add('hidden');
+            await resolveGame();
+        }
+    }, 1000);
+}
+
+async function resolveGame() {
+    const userChoice = await predict();
+    const compChoices = Object.keys(choices);
+    const compChoice = compChoices[Math.floor(Math.random() * compChoices.length)];
+
+    computerChoiceEl.textContent = choices[compChoice].icon;
+
+    if (!choices[userChoice]) {
+        gameResultEl.textContent = "AI can't see you! 🧐";
+    } else if (userChoice === compChoice) {
+        gameResultEl.textContent = "Draw! 🤝";
+    } else if (choices[userChoice].wins === compChoice) {
+        gameResultEl.textContent = "You Win! 🎉";
+        userScore++;
+    } else {
+        gameResultEl.textContent = "AI Wins! 🤖";
+        compScore++;
+    }
+
+    userScoreEl.textContent = userScore;
+    compScoreEl.textContent = compScore;
+    
+    isPlaying = false;
+    startBtn.disabled = false;
+    startBtn.textContent = "Next Round! 🔄";
+}
+
+// Theme Logic
 themeBtn.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
-    const t = i18n[currentLang];
-    if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-        themeBtn.textContent = t.lightMode;
+    themeBtn.textContent = body.classList.contains('dark-mode') ? "☀️ Light Mode" : "🌙 Dark Mode";
+});
+
+startBtn.addEventListener('click', () => {
+    if (!model) {
+        init();
     } else {
-        localStorage.setItem('theme', 'light');
-        themeBtn.textContent = t.darkMode;
+        startGame();
     }
 });
 
-async function fetchWikiData(title) {
-    try {
-        const response = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching from Wikipedia:', error);
-        return null;
-    }
-}
-
-catButtons.forEach(btn => {
-    btn.addEventListener('click', async () => {
-        const category = btn.getAttribute('data-category');
-        const list = menus[category];
-        const randomTitle = list[Math.floor(Math.random() * list.length)];
-        
-        const data = await fetchWikiData(randomTitle);
-        if (data) {
-            currentDishData = data;
-            placeholder.classList.add('hidden');
-            menuDisplay.classList.remove('hidden');
-            
-            dishImg.src = data.thumbnail ? data.thumbnail.source : 'https://via.placeholder.com/800x400?text=No+Image+Available';
-            dishImg.alt = data.title;
-            dishIcon.textContent = "🍴"; // Default icon for all
-            dishName.textContent = data.title;
-            dishDesc.textContent = data.extract;
-            wikiLink.href = data.content_urls.desktop.page;
-
-            // Disqus Reset Logic
-            if (typeof DISQUS !== 'undefined') {
-                DISQUS.reset({
-                    reload: true,
-                    config: function () {
-                        this.page.identifier = data.titles.canonical;
-                        this.page.url = window.location.href + '#!' + data.titles.canonical;
-                        this.page.title = data.title;
-                    }
-                });
-            } else {
-                // First time loading Disqus
-                window.disqus_config = function () {
-                    this.page.identifier = data.titles.canonical;
-                    this.page.url = window.location.href + '#!' + data.titles.canonical;
-                    this.page.title = data.title;
-                };
-                (function() {
-                    var d = document, s = d.createElement('script');
-                    s.src = 'https://product-builderjj.disqus.com/embed.js';
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                })();
-            }
-
-            menuDisplay.classList.remove('animate-fade-in');
-            void menuDisplay.offsetWidth;
-            menuDisplay.classList.add('animate-fade-in');
-        }
-    });
-});
-
+// Initial state
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'dark') body.classList.add('dark-mode');
-updateLanguage('ko');

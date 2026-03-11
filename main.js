@@ -189,6 +189,32 @@ catButtons.forEach(btn => {
         dishIcon.textContent = currentDish.icon;
         dishName.textContent = currentDish[currentLang].name;
         dishDesc.textContent = currentDish[currentLang].desc;
+
+        // Disqus Reset Logic
+        if (typeof DISQUS !== 'undefined') {
+            DISQUS.reset({
+                reload: true,
+                config: function () {
+                    this.page.identifier = currentDish.en.name;
+                    this.page.url = window.location.href + '#!' + currentDish.en.name;
+                    this.page.title = currentDish.en.name;
+                }
+            });
+        } else {
+            // First time loading Disqus
+            window.disqus_config = function () {
+                this.page.identifier = currentDish.en.name;
+                this.page.url = window.location.href + '#!' + currentDish.en.name;
+                this.page.title = currentDish.en.name;
+            };
+            (function() {
+                var d = document, s = d.createElement('script');
+                s.src = 'https://global-flavor-recommender.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        }
+
         menuDisplay.classList.remove('animate-fade-in');
         void menuDisplay.offsetWidth;
         menuDisplay.classList.add('animate-fade-in');

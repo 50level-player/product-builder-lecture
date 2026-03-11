@@ -4,12 +4,13 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // TODO: Firebase Console에서 발급받은 실제 설정값으로 교체해야 합니다.
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyD3Qn8n2h_Gw-kVQwdWcFoSoucJnGPUC4U",
+  authDomain: "handfortune-ef99c.firebaseapp.com",
+  projectId: "handfortune-ef99c",
+  storageBucket: "handfortune-ef99c.firebasestorage.app",
+  messagingSenderId: "1004281056770",
+  appId: "1:1004281056770:web:393b6ba8a9be6bd344611b",
+  measurementId: "G-JS0XQSPMG9"
 };
 
 // Initialize Firebase
